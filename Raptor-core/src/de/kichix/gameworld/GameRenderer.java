@@ -61,8 +61,10 @@ public class GameRenderer {
         batcher.begin();
         
         renderEShots();
-        renderHealth();
         renderBackground(delta, i.x);
+        renderBorder();
+        renderHealth();
+        renderScore();
         renderEnemies(runTime);
         renderJet(runTime, delta);
         batcher.end();
@@ -76,6 +78,14 @@ public class GameRenderer {
     	batcher.draw(AssetLoader.bg, 0, 0+y, 320, 640);
     	batcher.draw(AssetLoader.bg, 0, -640+y, 320, 640);
     	
+    }
+    
+    private void renderBorder() {
+    
+    	shapeRenderer.setColor(0,0,0,1);
+    	//shapeRenderer.rect(0, 0, 300, 25);
+    	shapeRenderer.rect(280, 0, 25, 408);
+
     }
     
     private void renderJet(float runTime, float delta) {
@@ -100,9 +110,7 @@ public class GameRenderer {
 				d += delta;
 				batcher.draw(AssetLoader.bulletHit.getKeyFrame(d), p.getX(), p.getY(), p.getWidth()+5, p.getHeight()+5);
 				p.stop();
-				System.out.println(AssetLoader.bulletHit.getAnimationDuration() + ", " + d + ", " + delta);
 				if(AssetLoader.bulletHit.isAnimationFinished(d)) {
-					System.out.println("Ende");
 					d=0;
 					projectiles.remove(i);
 				
@@ -118,9 +126,10 @@ public class GameRenderer {
     	Jet jet = myWorld.getJet();
     	shapeRenderer.setColor(255, 0, 0, 1);
     	
-    	for (int i = 0; i < jet.getHealth(); i++) {
-    		shapeRenderer.rect(275, 380 - i*25, 20, 20);
-    	}
+    	
+    	//shapeRenderer.rect(277.5f, 400f, 20.5f, (200 + (jet.getHealth()*(200/jet.getInitHealth()))));
+    	shapeRenderer.rect(282.5f, 400f, 15f, -(100 + (jet.getHealth()*(100/jet.getInitHealth()))));
+    	
     }
     
     private void renderEnemies(float runTime) {
@@ -151,6 +160,15 @@ public class GameRenderer {
         	Projectile p = (Projectile) EProjectiles.get(i);
         	shapeRenderer.rect(p.getX(), p.getY(), p.getWidth(), p.getHeight());
         } 
+    }
+    
+    private void renderScore() {
+    	String score = myWorld.getScore() + "";
+    	batcher.enableBlending();
+    	AssetLoader.fontbg.draw(batcher, "" + myWorld.getScore(), (float) (250 - 6*score.length())+1 , 6 );
+    	AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (float) 250 - 6*score.length() , 5 );
+    	System.out.println(score.length());
+    	//AssetLoader.font.draw(batcher, "" + myWorld.getScore(), 10, 10 );
     }
     
 }

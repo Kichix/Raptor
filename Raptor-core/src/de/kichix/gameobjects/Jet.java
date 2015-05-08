@@ -15,7 +15,7 @@ public class Jet {
 	
 	private int width;
 	private int height;
-	private int health;
+	private int health, initHealth;
 	private boolean isAlive;
 	
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -27,6 +27,7 @@ public class Jet {
 		velocity = new Vector2(0, 0);
 		acceleration = new Vector2(0,0);
 		health = 10;
+		initHealth = 10;
 		isAlive = true;
 	}
 	
@@ -38,7 +39,17 @@ public class Jet {
 
         velocity.add(acceleration.cpy().scl(delta));
 
+        if(this.position.x < 0) {
+       	 this.position.x = 0;
+       	}
+        
+        if(this.position.x > 275 - this.width) {
+        	this.position.x = 275 -  this.width;
+        }
+        
         position.add(velocity.cpy().scl(delta));
+    
+    	
     }
     
     public float getX() {
@@ -89,6 +100,10 @@ public class Jet {
     
     public int getHealth() {
     	return this.health;
+    }
+    
+    public int getInitHealth() {
+    	return initHealth;
     }
     
     public void kill() {

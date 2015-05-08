@@ -16,10 +16,13 @@ public class GameWorld {
 	private ArrayList enemies;
 	
 	private boolean jetHit;
+	
+	private int score;
 
     public GameWorld() {
     	
     	jet = new Jet(136, 350, 40, 40);
+    	this.score = 0;
     	spawner = new EnemieSpawner();
     	spawner.spawn();
     }
@@ -66,6 +69,7 @@ public class GameWorld {
 			if (e.alive() == true) {
 				e.update(delta);
 			} else {
+				score += 10;
 				enemies.remove(i);
 			}
 		}
@@ -106,5 +110,8 @@ public class GameWorld {
     	return spawner;
     }
     
+    public int getScore() {
+    	return this.score;
+    }
     
 }

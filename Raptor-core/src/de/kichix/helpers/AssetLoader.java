@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
@@ -20,6 +21,8 @@ public class AssetLoader {
 	public static Animation heliAnimation;
 	public static Animation bulletHit;
 	
+	public static BitmapFont font, fontbg;
+	
 	public static void load() {
 		
 	loadTextures();	
@@ -27,6 +30,7 @@ public class AssetLoader {
 	loadJet();
 	loadHeli();
 	loadBullet();
+	loadFont();
 		
 	}
 	
@@ -97,8 +101,17 @@ public class AssetLoader {
 		
 	}
 	
+	public static void loadFont() {
+		font = new BitmapFont(Gdx.files.internal("font.fnt"));
+		font.setScale(.6f, -.6f);
+		
+		fontbg = new BitmapFont(Gdx.files.internal("fontbg.fnt"));
+		fontbg.setScale(.6f, -.6f);
+	}
+	
 	public static void dispose() {
 		texture.dispose();
 		bgtexture.dispose();
+		font.dispose();
 	}
 }
