@@ -9,6 +9,7 @@ public class RaptorMain extends Game {
 	
 	@Override
 	public void create () {
+//		setScreen(new LoadingScreen());
 		AssetLoader.load();
 		setScreen(new GameScreen());
 	}

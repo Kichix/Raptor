@@ -26,7 +26,7 @@ public class GameRenderer {
     private EnemieSpawner mySpawner;
     
     private Vector2 i, j;
-    private float d;
+    private float d, d2;
     
     public GameRenderer(GameWorld world) {
         myWorld = world;
@@ -35,8 +35,9 @@ public class GameRenderer {
         cam.setToOrtho(true, 300, 408);
 
         i = new Vector2(0,0);
-    	j = new Vector2(30,0);
+    	j = new Vector2(50,0);
     	d = 0;
+    	d2 = 0;
     	
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
@@ -45,7 +46,7 @@ public class GameRenderer {
     }
 
     public void render(float runTime, float delta) {
-
+    	
     	Jet jet = myWorld.getJet();
     	
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -60,16 +61,27 @@ public class GameRenderer {
         shapeRenderer.begin(ShapeType.Filled);
         batcher.begin();
         
+       
+        
+        if (runTime < 5) {
+        
+        	batcher.disableBlending();
+        	batcher.draw(AssetLoader.logoo, 25, 150, 250, 100);
+        	 System.out.println(runTime);
+        	 
+        }
+        
+        if (runTime > 5) {        
         renderEShots();
         renderBackground(delta, i.x);
-        renderBorder();
+        //renderBorder();
         renderHealth();
         renderScore();
-        renderEnemies(runTime);
-        renderJet(runTime, delta);
+        renderEnemies(runTime, delta);
+        renderJet(runTime, delta); }
         batcher.end();
-        shapeRenderer.end();
-        
+        shapeRenderer.end(); 
+           
     }
     
     private void renderBackground(float delta, float y) {
@@ -124,15 +136,19 @@ public class GameRenderer {
     private void renderHealth() {
     	
     	Jet jet = myWorld.getJet();
-    	shapeRenderer.setColor(255, 0, 0, 1);
+//    	shapeRenderer.setColor(255, 0, 0, 1);
+//    	
+//    	if (jet.getHealth() > 0) {
+//    	shapeRenderer.rect(282.5f, 400f, 15f, -((jet.getHealth()*(200/jet.getInitHealth()))));
+//    	}
     	
-    	
-    	//shapeRenderer.rect(277.5f, 400f, 20.5f, (200 + (jet.getHealth()*(200/jet.getInitHealth()))));
-    	shapeRenderer.rect(282.5f, 400f, 15f, -(100 + (jet.getHealth()*(100/jet.getInitHealth()))));
-    	
+    	for (int i = 0; i < jet.getHealth() +1; i++) {
+    		batcher.enableBlending();
+    		batcher.draw(AssetLoader.heart, 5 + 20*i, 5, 15, 14); 
+    	};
     }
     
-    private void renderEnemies(float runTime) {
+    private void renderEnemies(float runTime, float delta) {
     	
     	int color;
     	
@@ -145,6 +161,16 @@ public class GameRenderer {
 			if (e.alive() == true) {
 	    		batcher.enableBlending();
 	        	batcher.draw(AssetLoader.heliAnimation.getKeyFrame(runTime), e.getX(), e.getY(), e.getWidth(), e.getHeight());
+	        	
+	        	if (e.getHealth() <= 0) {
+	        		d2 += delta;
+					batcher.draw(AssetLoader.heliDeathAnimation.getKeyFrame(d2), e.getX(), e.getY(), e.getWidth(), e.getHeight());
+					if(AssetLoader.heliDeathAnimation.isAnimationFinished(d2)) {
+						System.out.println("Hallu");
+						d2=0;
+					    e.kill();
+					}
+	        	}
 			}
 		}
     }
@@ -165,9 +191,8 @@ public class GameRenderer {
     private void renderScore() {
     	String score = myWorld.getScore() + "";
     	batcher.enableBlending();
-    	AssetLoader.fontbg.draw(batcher, "" + myWorld.getScore(), (float) (250 - 6*score.length())+1 , 6 );
-    	AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (float) 250 - 6*score.length() , 5 );
-    	System.out.println(score.length());
+    	AssetLoader.fontbg.draw(batcher, "" + myWorld.getScore(), (float) (280 - 6*score.length())+1 , 6 );
+    	AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (float) 280 - 6*score.length() , 5 );
     	//AssetLoader.font.draw(batcher, "" + myWorld.getScore(), 10, 10 );
     }
     

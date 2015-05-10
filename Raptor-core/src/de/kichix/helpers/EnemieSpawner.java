@@ -20,7 +20,7 @@ public class EnemieSpawner {
 	
 	public void spawn() {
 	
-		int rr = r.nextInt(4);
+		int rr = r.nextInt(6);
 		
 		for(int i=0; i<rr; i++) {
 		Enemie e = new Enemie(-30, 20, 40, 40);

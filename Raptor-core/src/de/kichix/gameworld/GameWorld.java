@@ -50,10 +50,9 @@ public class GameWorld {
       					p.colli();
       					}
       				}
-      					if(e.getHealth() <= 0) {
-      					e.kill();
-      				}
-      				else{e.unHit();}
+//      				if(e.getHealth() <= 0) {
+//      					e.kill();
+//      				}
       				}
       			} else {
       				projectiles.remove(i);
@@ -70,7 +69,7 @@ public class GameWorld {
 				e.update(delta);
 			} else {
 				score += 10;
-				enemies.remove(i);
+		    	enemies.remove(i);
 			}
 		}
 		
@@ -92,6 +91,12 @@ public class GameWorld {
 		
 		}
 		
+    }
+    
+    public void killenemie(int i){
+    	
+    	Enemie e = (Enemie) enemies.get(i);
+
     }
     
     public boolean jetHit() {

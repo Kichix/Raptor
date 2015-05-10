@@ -34,7 +34,8 @@ public class Jet {
     public void update(float delta) {
     	
     	if(Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
-        velocity.x = -30*Gdx.input.getAccelerometerX();
+        velocity.x = -40*Gdx.input.getAccelerometerX();
+        velocity.y = 70*Gdx.input.getAccelerometerY();
     	}
 
         velocity.add(acceleration.cpy().scl(delta));
@@ -46,6 +47,14 @@ public class Jet {
         if(this.position.x > 275 - this.width) {
         	this.position.x = 275 -  this.width;
         }
+        
+        if(this.position.y < 0) {
+          	 this.position.y = 0;
+          	}
+           
+           if(this.position.y > 408 - this.width) {
+           	this.position.y = 408 -  this.width;
+           }
         
         position.add(velocity.cpy().scl(delta));
     

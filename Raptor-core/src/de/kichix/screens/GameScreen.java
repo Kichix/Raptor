@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 import de.kichix.gameworld.GameRenderer;
 import de.kichix.gameworld.GameWorld;
+import de.kichix.helpers.AssetLoader;
 import de.kichix.helpers.InputHandler;
 
 public class GameScreen implements Screen {
@@ -25,7 +26,10 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         runTime += delta;
-    	world.update(delta);
+        
+        if(runTime > 5) {
+    	world.update(delta); }
+        
         renderer.render(runTime, delta);
     }
 
